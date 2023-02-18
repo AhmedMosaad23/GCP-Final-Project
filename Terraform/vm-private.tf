@@ -1,8 +1,3 @@
-resource "google_service_account" "default" {
-  account_id   = "service"
-  display_name = "Service Account"
-}
-
 resource "google_compute_instance" "default" {
   name         = "test"
   machine_type = "e2-medium"
@@ -25,22 +20,17 @@ resource "google_compute_instance" "default" {
   }
 
   network_interface {
-    network = "default"
+    network = google_compute_network.vpc_network.id
+    subnetwork = google_compute_subnetwork.management.id
 
     access_config {
       // Ephemeral public IP
     }
   }
 
-  metadata = {
-    foo = "bar"
-  }
-
-  metadata_startup_script = "echo hi > /test.txt"
-
-  service_account {
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.default.email
-    scopes = ["cloud-platform"]
-  }
+  # service_account {
+  #   # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+  #   email  = google_service_account.my-service.email
+  #   scopes = ["cloud-platform"]
+  # }
 }
