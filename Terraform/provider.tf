@@ -1,4 +1,4 @@
 provider "google" {
-  project     = "Ahmed Mossad"
+  project     = "ahmed-mossad"
   region      = "us-central1"
 }

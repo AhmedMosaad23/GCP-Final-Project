@@ -6,5 +6,14 @@ resource "google_service_account" "gcp-my-service" {
 resource "google_project_iam_member" "service-iam" {
     project = "ahmed-mossad"
     role = "roles/storage.admin"
-    members = ["serviceAccount:${google_service_account.gcp-my-service.email}"]
+    member = "serviceAccount:${google_service_account.gcp-my-service.email}"
+}
+resource "google_service_account" "instance-sa" {
+  account_id = "instance-sa"
+  display_name = "instance-sa"
+}
+resource "google_project_iam_member" "instance" {
+  project = "ahmed-mossad"
+  role = "roles/container.admin"
+  member = "serviceAccount:${google_service_account.instance-sa.email}"
 }

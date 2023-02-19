@@ -1,6 +1,6 @@
 resource "google_compute_instance" "default" {
   name         = "test"
-  machine_type = "e2-medium"
+  machine_type = "e2-micro"
   zone         = "us-central1-a"
 
   tags = ["foo", "bar"]
@@ -15,12 +15,12 @@ resource "google_compute_instance" "default" {
   }
 
   // Local SSD disk
-  scratch_disk {
-    interface = "SCSI"
-  }
+  # scratch_disk {
+  #   interface = "SCSI"
+  # }
 
   network_interface {
-    network = google_compute_network.vpc_network.id
+    network = google_compute_network.vpc-network.id
     subnetwork = google_compute_subnetwork.management.id
 
     access_config {
@@ -28,9 +28,10 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  # service_account {
-  #   # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-  #   email  = google_service_account.my-service.email
-  #   scopes = ["cloud-platform"]
-  # }
+  service_account {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    email  = google_service_account.instance-sa.email
+    scopes = ["cloud-platform"]
+  }
+  metadata_startup_script = file("script.sh")
 }
