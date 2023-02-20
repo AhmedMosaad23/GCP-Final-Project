@@ -7,22 +7,22 @@ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.clou
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 sudo apt-get update && sudo apt-get install google-cloud -y
 
-#install kubernetes to the private vm
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
-echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+# #install kubernetes to the private vm
+# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+# curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+# echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+# sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-#handle configuration of the kubectl 
-chmod +x kubectl
-mkdir -p ~/.local/bin
-mv ./kubectl ~/.local/bin/kubectl
-kubectl version --client
+# #handle configuration of the kubectl 
+# chmod +x kubectl
+# mkdir -p ~/.local/bin
+# mv ./kubectl ~/.local/bin/kubectl
+# kubectl version --client
 
 #install gcloud plugin of gke
 sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
 sudo USE_GKE_GCLOUD_AUTH_PLUGIN: True
 gcloud container clusters get-credentials python-cluster --zone=us-east1-b
 
-#install git to the private VM:
-sudo apt install git -y
+# #install git to the private VM:
+# sudo apt install git -y
